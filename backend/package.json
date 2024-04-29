@@ -1,0 +1,42 @@
+{
+  "name": "jsserverside",
+  "version": "1.0.0",
+  "description": "lab 6 serversidejs",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/main.js",
+    "lint": "eslint . --ext .js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Rodrimansidub14/JSserverSide.git"
+  },
+  "author": "Rodrigo Mansilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rodrimansidub14/JSserverSide/issues"
+  },
+  "homepage": "https://github.com/Rodrimansidub14/JSserverSide#readme",
+  "dependencies": {
+    "@apidevtools/swagger-express-middleware": "^4.0.2",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "libsodium-wrappers": "^0.7.13",
+    "mysql2": "^3.9.2",
+    "sodium-native": "^4.1.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.24.1",
+    "eslint": "^8.0.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0"
+  }
+}

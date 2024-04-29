@@ -1,0 +1,22 @@
+{
+  
+    "extends": "airbnb",
+    "parserOptions": {
+      "ecmaVersion": 2020
+    },
+    "rules": {
+      "semi": ["error", "never"],
+      "no-console": "off",
+      "linebreak-style": ["error", "unix"],
+      "import/extensions": ["error", "ignorePackages", {
+        "js": "always",
+        "mjs": "never",
+        "jsx": "never"
+      }]
+    },
+    "env": {
+      "es2021": true,
+      "node": true
+    }
+  }
+  
