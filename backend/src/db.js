@@ -76,11 +76,10 @@ export async function registerUser(username, password, role = 'user') {
   }
 }
 
-// Función para obtener usuario por username
 export async function getUserByUsername(username) {
   try {
-    const [user] = await pool.query('SELECT * FROM users WHERE username = ?', [username])
-    return user
+    const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username])
+    return rows[0] || null // Ensure it returns null if no user is found
   } catch (error) {
     console.error('Error getting user by username:', error)
     throw error

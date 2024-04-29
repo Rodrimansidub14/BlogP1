@@ -1,64 +1,74 @@
 /* eslint-disable linebreak-style */
-/* eslint-disable import/no-extraneous-dependencies */
-import sodium from 'libsodium-wrappers'
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { randomBytes, pbkdf2Sync } from 'crypto'
 import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your_secret_here'
+const { JWT_SECRET } = process.env
 
-// Espera a que sodium esté listo antes de usarlo
-async function initializeSodium() {
-  await sodium.ready
+if (!JWT_SECRET) {
+  console.error('JWT_SECRET is not set in the environment variables.')
+  throw new Error('JWT_SECRET is not set')
 }
 
-initializeSodium()
+const SALT_LENGTH = 16 // Salt length in bytes
+const ITERATIONS = 10000 // Number of iterations
+const KEY_LENGTH = 64 // Key length in bytes
+const DIGEST = 'sha512' // Digest algorithm
 
-/**
- * Generar un hash de contraseña.
- *
- * @param {string} password - La contraseña a hashear.
- * @returns {Promise<string>} El hash de la contraseña.
- */
-export async function hashPassword(password) {
-  return sodium.crypto_pwhash_str(
-    password,
-    sodium.crypto_pwhash_OPSLIMIT_MODERATE,
-    sodium.crypto_pwhash_MEMLIMIT_MODERATE,
-  )
+export function hashPassword(password) {
+  if (!password) {
+    console.error('Password is undefined or empty.')
+    throw new Error('Password is required for hashing.')
+  }
+  const salt = randomBytes(SALT_LENGTH).toString('hex')
+  const hash = pbkdf2Sync(password, salt, ITERATIONS, KEY_LENGTH, DIGEST).toString('hex')
+  return `${ITERATIONS}.${salt}.${hash}`
 }
 
-/**
- * Verificar una contraseña contra un hash.
- *
- * @param {string} hash - El hash contra el que se verifica.
- * @param {string} password - La contraseña a verificar.
- * @returns {Promise<boolean>} El resultado de la verificación.
- */
-export async function verifyPassword(hash, password) {
-  return sodium.crypto_pwhash_str_verify(hash, password)
+export function verifyPassword(storedHash, password) {
+  if (!storedHash || !password) {
+    console.error('Stored hash or password is undefined.')
+    throw new Error('Both stored hash and password are required for verification.')
+  }
+
+  try {
+    const [iterations, salt, originalHash] = storedHash.split('.')
+    const hash = pbkdf2Sync(password, salt, parseInt(iterations, 10), KEY_LENGTH, DIGEST).toString('hex')
+    return hash === originalHash
+  } catch (error) {
+    console.error('Error verifying password:', error)
+    throw error
+  }
 }
 
-/**
- * Generar un token JWT para un usuario.
- *
- * @param {object} user - El objeto usuario que incluye id y username.
- * @returns {string} El token JWT generado.
- */
 export function generateToken(user) {
-  return jwt.sign({ id: user.id, username: user.username }, JWT_SECRET, { expiresIn: '24h' })
+  if (!user || !user.role) {
+    console.error('User role is missing:', user)
+    throw new Error('User role is required for token generation.')
+  }
+
+  const payload = {
+    id: user.id,
+    username: user.username,
+    role: user.role,
+    iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+  }
+
+  console.log('JWT Payload:', payload)
+  return jwt.sign(payload, JWT_SECRET)
 }
 
-/**
- * Verificar un token JWT.
- *
- * @param {string} token - El token JWT a verificar.
- * @returns {object} El payload decodificado si el token es válido.
- * @throws {Error} Si el token es inválido o ha expirado.
- */
 export function verifyToken(token) {
+  if (!token) {
+    console.error('Token is undefined or empty.')
+    throw new Error('Token is required for verification.')
+  }
+
   try {
     return jwt.verify(token, JWT_SECRET)
   } catch (error) {
+    console.error('Token verification failed', error)
     throw new Error('Invalid or expired token')
   }
 }

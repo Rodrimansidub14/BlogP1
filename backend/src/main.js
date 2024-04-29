@@ -1,9 +1,9 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable consistent-return */
 // eslint-disable-next-line linebreak-style
 /* eslint-disable import/named */
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
-/* eslint-disable linebreak-style */
 import express from 'express'
 import cors from 'cors'
 import {
@@ -14,14 +14,13 @@ import { generateToken, verifyToken, verifyPassword } from './hashing.js'
 
 const app = express()
 app.use(cors({
-  origin: ['http://localhost:3000'], // Añade aquí los dominios permitidos
+  origin: ['http://localhost:3000'], // Add permitted domains here
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
 }))
 app.use(express.json())
-app.use(express.json({ limit: '10mb' }))
 
-// eslint-disable-next-line consistent-return
+// Middleware to verify if user is authenticated
 const isAuthenticated = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]
   if (!token) {
@@ -36,6 +35,7 @@ const isAuthenticated = (req, res, next) => {
   }
 }
 
+// Middleware to check if the user is an admin
 const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next()
@@ -45,70 +45,108 @@ const isAdmin = (req, res, next) => {
 }
 
 app.get('/', (_req, res) => {
-  res.send('Bienvenido al servidor del blog')
+  res.send('Welcome to the blog server')
 })
 
 app.get('/posts', async (_req, res) => {
-  const posts = await getAllPosts()
-  res.status(200).json(posts)
-})
-
-app.get('/posts/:postId', async (req, res) => {
-  const post = await getPById(req.params.postId)
-  if (post) {
-    res.status(200).json(post)
-  } else {
-    res.status(404).send('No se encontró ningún post')
+  try {
+    const posts = await getAllPosts()
+    res.status(200).json(posts)
+  } catch (error) {
+    res.status(500).send('Failed to retrieve posts')
   }
 })
 
-// eslint-disable-next-line consistent-return
+app.get('/posts/:postId', async (req, res) => {
+  try {
+    const post = await getPById(req.params.postId)
+    if (post) {
+      res.status(200).json(post)
+    } else {
+      res.status(404).send('Post not found')
+    }
+  } catch (error) {
+    res.status(500).send('Error retrieving post')
+  }
+})
+
 app.post('/admin/posts', [isAuthenticated, isAdmin], async (req, res) => {
   const {
     title, content, imageBase64, author,
   } = req.body
   if (!title || !content) {
-    return res.status(400).json({ error: 'Titulo y contenido son requeridos.' })
+    return res.status(400).json({ error: 'Title and content are required.' })
   }
-  const result = await createPost(title, content, imageBase64, author)
-  res.status(201).json(result)
+  try {
+    const result = await createPost(title, content, imageBase64, author)
+    res.status(201).json(result)
+  } catch (error) {
+    res.status(500).send('Failed to create post')
+  }
 })
 
 app.put('/admin/posts/:postId', [isAuthenticated, isAdmin], async (req, res) => {
   const {
     title, content, imageBase64, author,
   } = req.body
-  const result = await updatePById(req.params.postId, title, content, imageBase64, author)
-  if (result.affectedRows > 0) {
-    res.status(200).send('Post updated successfully')
-  } else {
-    res.status(404).send('Post not found')
+  try {
+    const result = await updatePById(req.params.postId, title, content, imageBase64, author)
+    if (result.affectedRows > 0) {
+      const updatedPost = await getPById(req.params.postId)
+      if (updatedPost) {
+        res.status(200).json(updatedPost)
+      } else {
+        res.status(404).send('Post not found after update')
+      }
+    } else {
+      res.status(200).send('Post found')
+    }
+  } catch (error) {
+    console.error('Error updating post:', error)
+    res.status(500).send('Server error')
   }
 })
 
 app.delete('/admin/posts/:postId', [isAuthenticated, isAdmin], async (req, res) => {
-  const result = await deletePById(req.params.postId)
-  if (result.affectedRows > 0) {
-    res.status(204).send()
-  } else {
-    res.status(404).send('Post not found')
+  try {
+    const result = await deletePById(req.params.postId)
+    if (result.affectedRows > 0) {
+      res.status(404).send('Post no encontrado') // Correctamente eliminado, sin contenido a enviar.
+    } else {
+      res.status(204).send('Post eliminado') // No se encontró el post para eliminar.
+    }
+  } catch (error) {
+    console.error('Error deleting post:', error)
+    res.status(500).send('Server error') // Error interno del servidor.
   }
 })
 
 app.post('/register', async (req, res) => {
   const { username, password, role } = req.body
-  const userId = await registerUser(username, password, role)
-  res.status(201).json({ message: 'User registered successfully', userId })
+  try {
+    const userId = await registerUser(username, password, role)
+    res.status(201).json({ message: 'User registered successfully', userId })
+  } catch (error) {
+    res.status(500).send('Registration failed')
+  }
 })
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body
-  const user = await getUserByUsername(username)
-  if (user && await verifyPassword(user.password_hash, password)) {
-    const token = generateToken({ id: user.id, username, role: user.role })
-    res.json({ token })
-  } else {
-    res.status(401).send('Invalid credentials')
+  try {
+    const user = await getUserByUsername(username)
+    if (!user || !user.password_hash) { // Check both user existence and hash existence
+      return res.status(401).send('User not found or no hash stored')
+    }
+    if (await verifyPassword(user.password_hash, password)) {
+      const token = generateToken(user)
+      res.status(200).json({ token })
+    } else {
+      res.status(401).send('Invalid credentials')
+    }
+  } catch (error) {
+    console.error('Login error:', error)
+    res.status(500).send('Server error')
   }
 })
 
