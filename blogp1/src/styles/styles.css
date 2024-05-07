@@ -1,0 +1,79 @@
+
+/* styles.css */
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px;
+  }
+
+.form {
+    width: 50%; /* Ajusta esto según la anchura deseada */
+    padding: 20px;
+    background: #1E1E1E;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.form-button {
+    width: 100%; /* Same width for uniformity */
+    margin-top: 10px;
+  }
+  .button-group {
+    display: flex;
+    justify-content: center ; /* Align buttons horizontally */
+    gap: 10px; /* Space between buttons */
+  }
+
+
+
+  .form-group {
+    margin-bottom: 15px; /* Space between form groups */
+  }
+  
+.form-title {
+    color: #bda061; /* Color para los títulos */
+    margin-bottom: 20px;
+}
+
+.form-input {
+    display: block;
+    background-color: #333; 
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #1E1E1E;
+    width: calc(100% - 20px); /* Full width minus padding */
+}
+
+.input-label {
+    color: #ECE9DF; /* Color para los textos de las etiquetas */
+    margin-bottom: 5px;
+}
+.select-label {
+  color: #ECE9DF; /* Color para los textos de las etiquetas */
+  margin-bottom: 5px;
+}
+
+.input-field {
+    color: #ECE9DF; /* Color para los textos dentro de los inputs */
+}
+
+  .btn-register {
+    background-color: #95660E; /* Dark grey background */
+    color: #231B16;
+    margin-top: 10px; /* Space above the button */
+  }
+  .btn-login {
+    background-color: #E09915; /* Green background */
+    color: #231B16;
+  }
+
+.custom-text-color {
+    color: #ECE9DF; /* Color dorado para el texto general */
+  }
+  
+  .custom-link-color {
+    color: #E09915; /* Color naranja-dorado para el enlace */
+  }
+  

@@ -62,18 +62,16 @@ export async function deletePById(postId) {
   }
 }
 
-export async function registerUser(username, password, role = 'user') {
-  try {
-    const hashedPassword = await hashPassword(password)
-    const result = await pool.query(
-      'INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)',
-      [username, hashedPassword, role],
-    )
-    return result.insertId
-  } catch (error) {
-    console.error('Error registering user:', error)
-    throw error
+export async function registerUser(username, password, role) {
+  if (!['user', 'admin'].includes(role)) {
+    throw new Error('Invalid role specified')
   }
+  const hashedPassword = await hashPassword(password)
+  const result = await pool.query(
+    'INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)',
+    [username, hashedPassword, role],
+  )
+  return result.insertId
 }
 
 export async function getUserByUsername(username) {
