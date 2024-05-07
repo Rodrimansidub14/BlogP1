@@ -23,6 +23,7 @@ Un blog moderno con tematica de elden ring con capacidades de administración pa
    - Installe docker en su equipo
    - Dirijase a la carpeta backend
    - ejecute el comando:
+  
     ```
     docker-compose up--build
     ```
