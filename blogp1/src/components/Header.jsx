@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-// components/Header.js
-import  'react'
+import 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import eldenringlogo from '../assets/eldenringlogo.png'
@@ -9,12 +8,10 @@ const Header = () => {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
 
-  console.log(logout); // Should log the function, if not, it might log 'undefined'
-
   const handleLogout = () => {
-    logout(); // Assuming logout clears the context/state
-    navigate('/login'); // Redirect to login after logout
-  };
+    logout()
+    navigate('/login')
+  }
 
   return (
     <nav className='navbar navbar-expand-lg navbar-dark bg-dark fixed-top'>

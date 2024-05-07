@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-// RegisterForm.jsx
 import 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useForm } from '../hooks/useForm'

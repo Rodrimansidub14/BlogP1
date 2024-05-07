@@ -10,10 +10,10 @@ if (!JWT_SECRET) {
   throw new Error('JWT_SECRET is not set')
 }
 
-const SALT_LENGTH = 16 // Salt length in bytes
-const ITERATIONS = 10000 // Number of iterations
-const KEY_LENGTH = 64 // Key length in bytes
-const DIGEST = 'sha512' // Digest algorithm
+const SALT_LENGTH = 16
+const ITERATIONS = 10000
+const KEY_LENGTH = 64
+const DIGEST = 'sha512'
 
 export function hashPassword(password) {
   if (!password) {
@@ -52,7 +52,7 @@ export function generateToken(user) {
     username: user.username,
     role: user.role,
     iat: Math.floor(Date.now() / 1000),
-    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
   }
 
   console.log('JWT Payload:', payload)

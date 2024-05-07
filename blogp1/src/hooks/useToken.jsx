@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-// hooks/useToken.js
 import { useState, createContext, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 export const TokenContext = createContext(null)
@@ -13,7 +12,7 @@ export const TokenProvider = ({ children }) => {
   useEffect(() => {
     const handleStorageChange = () => {
       const newToken = localStorage.getItem('access_token')
-      console.log('Token updated in localStorage:', newToken) // Log on storage event
+      console.log('Token updated in localStorage:', newToken) 
       setToken(newToken)
     };
 

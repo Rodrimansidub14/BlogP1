@@ -2,30 +2,30 @@
 import 'react'
 import { useAuth } from '../hooks/useAuth'
 import { useForm } from '../hooks/useForm'
-import { useNavigate } from 'react-router-dom' 
+import { useNavigate } from 'react-router-dom'
 import '../styles/styles.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import { Link } from 'react-router-dom'
 
 function LoginForm() {
   const { handleLogin } = useAuth()
-  const navigate = useNavigate() // usa useNavigate aquí
+  const navigate = useNavigate()
   const { formData, handleChange, handleSubmit } = useForm({
     initialValues: {
       username: '',
       password: '',
     },
-     onSubmit: async ({ username, password }) => {
-      console.log("Attempting to login with:", username, password);
+    onSubmit: async ({ username, password }) => {
+      console.log('Attempting to login with:', username, password)
       try {
-        await handleLogin(username, password);
-        alert('Login successful');
-        navigate('/');  // Navigate only after successful login
+        await handleLogin(username, password)
+        alert('Login successful')
+        navigate('/')
       } catch (error) {
-        console.error("Login error:", error);
-        alert('Login failed: ' + error.message); // More detailed error message for debugging
+        console.error('Login error:', error)
+        alert('Login failed: ' + error.message)
       }
-    }
+    },
   })
 
   return (

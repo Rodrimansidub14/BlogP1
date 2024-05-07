@@ -3,10 +3,9 @@ import 'react'
 import PropTypes from 'prop-types'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-const Modal = ({ isOpen, onClose , title, children, style }) => {
+const Modal = ({ isOpen, onClose, title, children, style }) => {
   if (!isOpen) return null
 
-  // Default styles merged with incoming styles
   const defaultStyles = {
     modalContent: {
       backgroundColor: '#1E1E1E',

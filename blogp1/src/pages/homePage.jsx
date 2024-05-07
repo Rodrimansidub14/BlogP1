@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useEffect, useState } from 'react'
 import useAPI from '../hooks/useAPI'
-import Modal from '../components/modal' // Ensure this path is correct
+import Modal from '../components/modal' 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 function HomePage() {
@@ -37,20 +37,20 @@ function HomePage() {
   }
 
   const postStyle = {
-    backgroundColor: '#1E1E1E', // Dark background for each post
-    color: '#ccc', // Light text color for contrast
+    backgroundColor: '#1E1E1E', 
+    color: '#ccc', 
     width: '80%',
     marginBottom: '1rem',
   }
 
   const titleStyle = {
-    color: '#A3833E', // Golden color for titles
-    marginBottom: '0.5rem', // Space below the title
+    color: '#A3833E', 
+    marginBottom: '0.5rem', 
   }
 
   const textStyle = {
-    color: '#ECE9DF', // Off-white color for text
-    marginBottom: '0.5rem', // Space below the text
+    color: '#ECE9DF', 
+    marginBottom: '0.5rem', 
   }
 
   if (loading) {

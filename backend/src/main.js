@@ -113,13 +113,13 @@ app.delete('/api/admin/posts/:postId', [isAuthenticated, isAdmin], async (req, r
   try {
     const result = await deletePById(req.params.postId)
     if (result.affectedRows > 0) {
-      res.status(404).send('Post no encontrado') // Correctamente eliminado, sin contenido a enviar.
+      res.status(404).send('Post no encontrado')
     } else {
-      res.status(204).send('Post eliminado') // No se encontró el post para eliminar.
+      res.status(204).send('Post eliminado')
     }
   } catch (error) {
     console.error('Error deleting post:', error)
-    res.status(500).send('Server error') // Error interno del servidor.
+    res.status(500).send('Server error')
   }
 })
 

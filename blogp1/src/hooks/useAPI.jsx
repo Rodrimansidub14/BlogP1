@@ -94,8 +94,8 @@ const useAPI = () => {
     try {
       const response = await fetchData('api/login', options)
       if (response.token) {
-        localStorage.setItem('token', response.token); // Store the token in localStorage
-        // Set token in auth context or state here if using such a pattern
+        localStorage.setItem('token', response.token); 
+   
       }
       return response
     } catch (error) {
