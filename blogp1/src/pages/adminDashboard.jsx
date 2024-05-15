@@ -23,7 +23,7 @@ const AdminDashboard = () => {
     }
     setSelectedPost(post)
     setEditMode(true)
-    handleModalClose()
+    setModalOpen(true)
 
   }
 

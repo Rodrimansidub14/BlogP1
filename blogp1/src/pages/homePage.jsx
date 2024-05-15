@@ -94,6 +94,7 @@ function HomePage() {
       <Modal
         isOpen={modalOpen}
         handleClose={handleCloseModal}
+        onClose = {handleCloseModal}
         title={selectedPost ? selectedPost.title : ''}
         style={{
           modalContent: { backgroundColor: '#333', color: '#fff' },
