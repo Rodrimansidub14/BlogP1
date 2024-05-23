@@ -32,6 +32,8 @@ services:
       - key: JWT_SECRET
         value: EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
 
+
+databases:
   - type: mysql
     name: my-database
     plan: free
