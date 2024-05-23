@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: blog-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: blog-db
+          property: host
+      - key: DB_USER
+        fromDatabase:
+          name: blog-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: blog-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: blog-db
+          property: database
+      - key: JWT_SECRET
+        value: EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
+    branches:
+      only:
+        - main
+    autoDeploy: true
+    repo: https://github.com/Rodrimansidub14/BlogP1.git
+    region: oregon
+
+databases:
+  - name: blog-db
+    plan: free
+    engine: mysql
+    version: 5.7
+    region: oregon
+    databases:
+      - blogdb
+    users:
+      - username: bloguser
+        password: blogpassword
