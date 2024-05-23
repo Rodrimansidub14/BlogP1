@@ -14,7 +14,7 @@ const useAPI = () => {
       setError(null)
 
       try {
-        const url = `http://0.0.0.0:5000/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`
+        const url = `http://localhost:5000/${endpoint.startsWith('/') ? endpoint.slice(1) : endpoint}`
         const headers = {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,

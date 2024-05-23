@@ -15,7 +15,7 @@ import { generateToken, verifyToken, verifyPassword } from './hashing.js'
 
 const app = express()
 app.use(cors({
-  origin: ['https://blogp1.onrender.com'], // Add permitted domains here
+  origin: ['https://blogp1.onrender.com/'], // Add permitted domains here
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -170,5 +170,5 @@ app.use((err, req, res, next) => {
 
 const port = 5000
 app.listen(port, () => {
-  console.log(`Server listening at https://blogp1-1.onrender.com/${port}`)
+  console.log(`Server listening at http://127.0.0.1:${port}`)
 })
