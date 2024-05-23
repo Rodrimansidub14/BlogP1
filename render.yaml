@@ -6,7 +6,7 @@ services:
     env: docker
     plan: free
     repo: https://github.com/Rodrimansidub14/BlogP1
-    branch: main  
+    branch: main  # o la rama donde está tu render.yaml
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DB_HOST
@@ -32,15 +32,11 @@ services:
       - key: JWT_SECRET
         value: EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
 
-
 databases:
-  - type: mysql
-    name: my-database
+  - name: my-database
+    type: mysql
     plan: free
     properties:
-      host: db
       databaseName: erblog
       user: user
       password: 12345
-    initSql:
-      - schema.sql
