@@ -169,7 +169,6 @@ app.use((err, req, res, next) => {
 })
 
 const port = 5000
-const host = '0.0.0.0'
 app.listen(port, () => {
-  console.log(`Server is running on http://${host}:${port}`)
+  console.log(`Server listening at http://127.0.0.1:${port}`)
 })
