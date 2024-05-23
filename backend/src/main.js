@@ -170,5 +170,5 @@ app.use((err, req, res, next) => {
 
 const port = 5000
 app.listen(port, () => {
-  console.log(`Server listening at http://0.0.0.0:${port}`)
+  console.log(`Server listening at https://blogp1-1.onrender.com/${port}`)
 })
