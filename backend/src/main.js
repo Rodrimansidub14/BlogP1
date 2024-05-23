@@ -15,7 +15,7 @@ import { generateToken, verifyToken, verifyPassword } from './hashing.js'
 
 const app = express()
 app.use(cors({
-  origin: ['http://localhost:5173'], // Add permitted domains here
+  origin: ['https://blogp1-1.onrender.com'], // Add permitted domains here
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
