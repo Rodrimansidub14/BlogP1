@@ -1,0 +1,44 @@
+# render.yaml
+
+services:
+  - type: web
+    name: my-api
+    env: docker
+    plan: free
+    repo: https://github.com/Rodrimansidub14/BlogP1
+    branch: main  # o la rama donde está tu render.yaml
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: my-database
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: my-database
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: my-database
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: my-database
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: my-database
+          property: databaseName
+      - key: JWT_SECRET
+        value: EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
+
+  - type: mysql
+    name: my-database
+    plan: free
+    properties:
+      host: db
+      databaseName: erblog
+      user: user
+      password: 12345
+    initSql:
+      - schema.sql
