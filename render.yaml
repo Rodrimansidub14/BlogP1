@@ -6,7 +6,7 @@ services:
     env: docker
     plan: free
     repo: https://github.com/Rodrimansidub14/BlogP1
-    branch: main  # o la rama donde está tu render.yaml
+    branch: main  
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DB_HOST
