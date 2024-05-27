@@ -3,7 +3,7 @@ services:
   app:
     build: .
     ports:
-      - "5000:5000"
+      - "22611:22611"
     volumes:
       - .:/usr/src/app
     depends_on:
@@ -27,7 +27,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: 12345
     ports:
-      - "3307:3306"
+      - "1403:1403"
     restart: always
 
 volumes:
