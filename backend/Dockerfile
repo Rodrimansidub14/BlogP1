@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:20
 
 WORKDIR /usr/src/app
 
@@ -11,3 +11,4 @@ COPY . .
 EXPOSE 22611
 
 CMD ["node", "src/main.js"]
+ENV JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
