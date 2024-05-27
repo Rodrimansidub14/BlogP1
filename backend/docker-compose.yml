@@ -1,35 +1,45 @@
 version: '3.8'
+
 services:
+  db:
+    image: mysql:5.7
+    container_name: backend_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: erblog
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 12345
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
   app:
     build: .
+    container_name: backend_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: user
+      DB_PASSWORD: 12345
+      DB_NAME: erblog
     ports:
       - "22611:22611"
     volumes:
       - .:/usr/src/app
-    depends_on:
-      - db
-    environment:
-      DATABASE_URL: mysql://user:12345@db:3306/erblog,
-      JWT_SECRET: EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
-  web:
-    image: nginx
-    restart: always
-    # Define any other necessary configurations for your nginx service here
 
-  db:
-    image: mysql:5.7
-    volumes:
-      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
-      - db_data:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: erblog
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 12345
+  web:
+    image: nginx:latest
+    container_name: backend_web
     ports:
-      - "1403:1403"
-    restart: always
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
 
 volumes:
   db_data:
-
