@@ -7,6 +7,8 @@ services:
     environment:
       - NGINX_HOST=22611.arpanetos.lol
       - NGINX_PORT=443
+      - JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
+
     depends_on:
       - app
     networks:
