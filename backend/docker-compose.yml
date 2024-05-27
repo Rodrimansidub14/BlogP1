@@ -1,45 +1,42 @@
 version: '3.8'
-
 services:
-  db:
-    image: mysql:5.7
-    container_name: backend_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: erblog
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 12345
-    volumes:
-      - db_data:/var/lib/mysql
+  web:
+    image: nginx:latest
     ports:
-      - "3306:3306"
+      - "1403:443"
+    environment:
+      - NGINX_HOST=22611.arpanetos.lol
+      - NGINX_PORT=443
+    depends_on:
+      - app
+    networks:
+      - webnet
 
   app:
     build: .
-    container_name: backend_app
-    restart: always
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_USER: user
-      DB_PASSWORD: 12345
-      DB_NAME: erblog
-    ports:
-      - "22611:22611"
     volumes:
       - .:/usr/src/app
-
-  web:
-    image: nginx:latest
-    container_name: backend_web
-    ports:
-      - "1403:1405"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - app
+      - db
+    networks:
+      - webnet
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: erblog
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - webnet
 
 volumes:
   db_data:
+
+networks:
+  webnet:
