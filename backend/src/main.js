@@ -15,7 +15,7 @@ import { generateToken, verifyToken, verifyPassword } from './hashing.js'
 
 const app = express()
 app.use(cors({
-  origin: ['http://localhost:5173'], // Add permitted domains here
+  origin: ['https://blogp1.onrender.com/'], // Add permitted domains here
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -168,7 +168,7 @@ app.use((err, req, res, next) => {
   res.status(500).send('Something broke!')
 })
 
-const port = 5000
+const port = 22611
 app.listen(port, () => {
   console.log(`Server listening at http://127.0.0.1:${port}`)
 })
