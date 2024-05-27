@@ -8,7 +8,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 22611
 
 CMD ["node", "src/main.js"]
 ENV JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
