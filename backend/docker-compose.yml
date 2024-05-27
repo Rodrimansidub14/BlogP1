@@ -3,7 +3,7 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "1403:443"
+      - "22611:22611"
     environment:
       - NGINX_HOST=22611.arpanetos.lol
       - NGINX_PORT=443
