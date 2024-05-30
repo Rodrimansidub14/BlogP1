@@ -3,10 +3,9 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "22611:22611"
+      - "5000:5000"
     environment:
-      - NGINX_HOST=22611.arpanetos.lol
-      - NGINX_PORT=443
+
       - JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
 
     depends_on:
