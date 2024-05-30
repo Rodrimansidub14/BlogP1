@@ -15,14 +15,15 @@ import { generateToken, verifyToken, verifyPassword } from './hashing.js'
 
 const app = express()
 app.use(cors({
-  origin: ['https://blogp1.onrender.com/'], // Add permitted domains here
+  origin: ['http://localhost:5173'], // Agrega aquí la URL de tu frontend
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }))
 app.use(express.json())
 app.use(express.static('public'))
-// Middleware to verify if user is authenticated
+
+// Middleware para verificar si el usuario está autenticado
 const isAuthenticated = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]
   if (!token) {
@@ -37,7 +38,7 @@ const isAuthenticated = (req, res, next) => {
   }
 }
 
-// Middleware to check if the user is an admin
+// Middleware para verificar si el usuario es administrador
 const isAdmin = (req, res, next) => {
   if (req.user && req.user.role === 'admin') {
     next()

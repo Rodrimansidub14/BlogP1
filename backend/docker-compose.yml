@@ -3,20 +3,26 @@ services:
   web:
     image: nginx:latest
     ports:
-      - "5000:5000"
-    environment:
-
-      - JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
-
+      - "80:80"
     depends_on:
       - app
     networks:
       - webnet
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
 
   app:
     build: .
     volumes:
       - .:/usr/src/app
+    environment:
+      - JWT_SECRET=EbykO5rtXNmN8PGLhixGlZJ+RgxAZ2YI0d+PhfLeBCI=
+      - DB_HOST=db
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - DB_NAME=erblog
+    ports:
+      - "5000:5000"
     depends_on:
       - db
     networks:
@@ -30,7 +36,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
     networks:
